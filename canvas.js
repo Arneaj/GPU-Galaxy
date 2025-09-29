@@ -4,17 +4,7 @@
  * Global variables
  ***************************************************************************/
 
-import {
-    starPositions,
-    nb_stars,
-    starPositionsCPUBuffer,
-    starLastLikeCPUBuffer,
-    starUserIDCPUBuffer,
-    x_min,
-    y_min,
-    update_nb_stars,
-    zoom
-} from './globals.js';
+
 
 /***************************************************************************
  * Imports
@@ -304,110 +294,19 @@ export async function starsGraphics() {
  * Star popup message handling
  ***************************************************************************/
 
-var speed_x = 0;
-var speed_y = 0;
-
-var mouseHoldTimeout = null;
-var mouseDownDone = false;
-
-// Dragging logic
-// window.addEventListener("mousedown", mouseDown);
-// window.addEventListener("mousemove", mouseDownAndMove);
-// window.addEventListener("mouseup", () => {
-//     mouseDownDone = false;
-//     last_x = null;
-//     last_y = null;
-//     last_t = null;
-// });
 
 export function mouseDown() {
 }
-
-var last_x = null;
-var last_y = null;
-var last_t = null;
 
 export function mouseDownAndMove(event) {
     
 }
 
 export function stopOnMouseLeave(event) {
-    mouseHoldTimeout = null;
-    mouseDownDone = false;
 }
 
 
-/**
- * When the user clicks the canvas:
- *  - If they do a quick click, we open the "Add star" box.
- *  - If they were dragging, we skip it.
- */
 export function clickFunction(event) {
-    // Cancel any pending hold
-    if (mouseHoldTimeout) {
-        clearTimeout(mouseHoldTimeout);
-        mouseHoldTimeout = null;
-    }
-    // If it was a long press/drag, reset and do nothing
-    if (mouseDownDone) {
-        mouseDownDone = false;
-        last_x = null;
-        last_y = null;
-        last_t = null;
-        return;
-    }
-
-    const infoBox = document.getElementById('info');
-    if (!infoBox) return;
-
-    let canvas = document.getElementById('stars_canvas');
-
-    let x = event.clientX*zoom + (x_min + 0.5 * canvas.clientWidth * (1 - zoom));
-    let y = event.clientY*zoom + (y_min + 0.5 * canvas.clientHeight * (1 - zoom));
-
-    // The box might be visible, so forcibly hide first
-    infoBox.style.animation = "0.2s smooth-disappear ease-out";
-    infoBox.style.opacity = "0";
-
-    if (infoBox.style.visibility === "hidden") 
-    {
-        infoBox.innerHTML = `
-            <b>Add a star</b><br><br>
-            <input type="text" id="star_message" class="button message_input" placeholder="Star message..."><br>
-            <b>(max 256 characters)</b>
-            <br><br>
-            <button id="submit_button" class="button submit_button">Submit message</button>
-            <button id="close_star_box" class="button close_button">Close</button>
-        `;
-        const submitBtn = infoBox.querySelector("#submit_button");
-        // submitBtn?.addEventListener("click", submitMessage);
-    }
-    else 
-    {
-        infoBox.innerHTML += `
-            <br><br>
-            <button id="like_button" class="button like_button">Like</button>
-            <button id="dislike_button" class="button dislike_button">Dislike</button>
-            <button id="close_star_box" class="button close_button">Close</button>
-        `;
-        // const likeBtn = infoBox.querySelector("#like_button");
-        // likeBtn?.addEventListener("click", likeMessage);
-        // const dislikeBtn = infoBox.querySelector("#dislike_button");
-        // dislikeBtn?.addEventListener("click", dislikeMessage);
-    }
-    infoBox.style.visibility = "visible";
-    infoBox.style.animation = "0.2s smooth-appear ease-in";
-    infoBox.style.opacity = "1";
-    infoBox.style.backgroundColor = "rgba(51, 51, 51, 0.95)";
-    infoBox.style.top = "40%";
-    infoBox.style.left = "25%";
-    infoBox.style.width = "50%";
-
-    // Attach listeners to the close buttons
-    // const closeBtn = infoBox.querySelector("#close_star_box");
-    // closeBtn?.addEventListener("click", async () => {
-    //     await closeStarPopup(event);
-    // });
 }
 
 
